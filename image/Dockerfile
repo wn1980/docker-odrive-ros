@@ -28,18 +28,7 @@ RUN	apt-get install -y \
     rm -rf /var/lib/apt/lists/*
 
 RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python - && \
-	pip install monotonic
-
-RUN mkdir -p /etc/udev/rules.d && \
-	git clone https://github.com/neomanic/ODrive.git -b py27compat && \
-	#git clone https://github.com/odriverobotics/ODrive.git && \
-	#git clone https://github.com/neomanic/ODrive.git && \
-	cd ODrive/tools && \
-	python setup.py sdist && \
-	pip install dist/*.tar.gz && \
-	#cp dist/*.tar.gz / && \
-	rm -rf ~/ODrive && \
-	echo "DONE"
+	pip install odrive==0.5.1
 
 RUN mkdir -p $HOME/catkin_ws/src && \
 	cd $HOME/catkin_ws/src && \
