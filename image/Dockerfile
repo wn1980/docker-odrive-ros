@@ -17,8 +17,12 @@ RUN	apt-get install -y \
 	ros-${ROS_DISTRO}-tf-conversions \
 	curl \
 	git \
-	build-essential \
-	python-rosdep && \
+	libfreetype6-dev \
+	pkg-config \
+	libpng-dev \
+	python-numpy \
+	python-rosdep \
+	build-essential && \
 	apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -27,10 +31,13 @@ RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python - && \
 	pip install monotonic
 
 RUN mkdir -p /etc/udev/rules.d && \
-	git clone https://github.com/neomanic/ODrive -b py27compat && \
+	git clone https://github.com/neomanic/ODrive.git -b py27compat && \
+	#git clone https://github.com/odriverobotics/ODrive.git && \
+	#git clone https://github.com/neomanic/ODrive.git && \
 	cd ODrive/tools && \
 	python setup.py sdist && \
 	pip install dist/*.tar.gz && \
+	#cp dist/*.tar.gz / && \
 	rm -rf ~/ODrive && \
 	echo "DONE"
 
