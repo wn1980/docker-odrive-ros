@@ -55,8 +55,8 @@ RUN mkdir -p $HOME/catkin_ws/src && \
 
 RUN rosdep init && rosdep update
 
-COPY ./start.launch /
+COPY ./odrive.launch /
 
-CMD ["roslaunch", "--wait", "start.launch"]
+CMD ["roslaunch", "--wait", "odrive.launch"]
 
 #CMD ["rosrun", "odrive_ros", "odrive_node"]
