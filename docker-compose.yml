@@ -9,7 +9,7 @@ networks:
 services:
 
   odrive:
-    build: ./image
+    #build: ./image
     image: wn1980/odrive-ros${TAG}
     container_name: ros_odrive
     init: true
