@@ -1,5 +1,5 @@
-#FROM ros:noetic-ros-core-focal
-FROM ros:melodic-ros-core-bionic
+FROM ros:noetic-ros-core-focal
+#FROM ros:melodic-ros-core-bionic
 
 LABEL maintainer="Waipot Ngamsaad <waipotn@hotmail.com>"
 
@@ -20,45 +20,69 @@ RUN	apt-get install -y \
 	libfreetype6-dev \
 	pkg-config \
 	libpng-dev \
-	python-numpy \
-	python-rosdep \
-	build-essential && \
-	apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# install odrive
-#RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python - && \
-#	pip install odrive==0.5.1
-
-RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python - && \
-	pip install monotonic
-
-RUN mkdir -p /etc/udev/rules.d && \
-	git clone https://github.com/neomanic/ODrive -b py27compat && \
-	cd ODrive/tools && \
-	python setup.py sdist && \
-	pip install dist/*.tar.gz && \
-	rm -rf ~/ODrive && \
-	echo "DONE"
-
-# install odrive_ros
-RUN mkdir -p $HOME/catkin_ws/src && \
-	cd $HOME/catkin_ws/src && \
-    git clone https://github.com/neomanic/odrive_ros.git && \
-    cd $HOME/catkin_ws && \
-	source /opt/ros/$ROS_DISTRO/setup.bash && \
-	catkin_make install -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros/$ROS_DISTRO -DCATKIN_ENABLE_TESTING=0 && \
-	#catkin_make && \
-	#cd $HOME/catkin_ws/src/odrive_ros && \
-	#pip install -e . && \
-	rm -rf $HOME/catkin_ws && \
-	echo "DONE"
+	libusb-1.0-0 \
+	libusb-1.0-0-dev \
+	python3-numpy \
+	python3-dev \
+	python3-rosdep \
+	python-is-python3 \
+	build-essential \
+	&& apt-get autoremove -y \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN rosdep init && rosdep update
 
+# install odrive
+RUN curl https://bootstrap.pypa.io/get-pip.py | python - && \
+	pip install odrive pyserial && \
+	#RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python - && \
+	#pip install odrive==0.5.1 && \
+	echo "DONE"
+
+#RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py | python - && \
+#	pip install monotonic
+
+#RUN mkdir -p /etc/udev/rules.d && \
+#	git clone https://github.com/neomanic/ODrive -b py27compat && \
+#	cd ODrive/tools && \
+#	python setup.py sdist && \
+#	pip install dist/*.tar.gz && \
+#	rm -rf ~/ODrive && \
+#	echo "DONE"
+
+# install odrive_ros
+ENV HOME=/
+
+RUN mkdir -p $HOME/catkin_ws/src && \
+	cd $HOME/catkin_ws/src && \
+    git clone https://github.com/neomanic/odrive_ros.git && \
+	rm -rf odrive_ros/src/odrive_ros
+
+COPY ./odrive_ros/* $HOME/catkin_ws/src/odrive_ros/src/odrive_ros/ 
+
+RUN mkdir -p $HOME/catkin_ws/src && \
+	cd $HOME/catkin_ws/src && \
+    #git clone https://github.com/neomanic/odrive_ros.git && \
+	#cd $HOME/catkin_ws/src/odrive_ros/src/odrive_ros && \
+	#echo "from .odrive_node import ODriveNode, start_odrive" > __init__.py && \
+    cd $HOME/catkin_ws && \
+	source /opt/ros/$ROS_DISTRO/setup.bash && \
+	#catkin_make install -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros/$ROS_DISTRO -DCATKIN_ENABLE_TESTING=0 && \
+	catkin_make && \
+	#cd $HOME/catkin_ws/src/odrive_ros && \
+	#pip install -e . && \
+	#python setup.py install && \
+	#cp -r src/odrive_ros nodes && \
+	#rm -rf $HOME/catkin_ws && \
+	echo "DONE"
+
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc && \
+    echo "source $HOME/catkin_ws/devel/setup.bash" >> ~/.bashrc
+
 COPY ./odrive.launch /
 
-CMD ["roslaunch", "--wait", "odrive.launch"]
+#CMD ["roslaunch", "--wait", "odrive.launch"]
 
 #CMD ["rosrun", "odrive_ros", "odrive_node"]
+CMD source $HOME/catkin_ws/devel/setup.bash && roslaunch --wait odrive.launch
