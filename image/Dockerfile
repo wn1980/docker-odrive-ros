@@ -54,15 +54,16 @@ RUN curl https://bootstrap.pypa.io/get-pip.py | python - && \
 # install odrive_ros
 ENV HOME=/
 
+#RUN mkdir -p $HOME/catkin_ws/src && \
+#	cd $HOME/catkin_ws/src && \
+#    git clone https://github.com/neomanic/odrive_ros.git && \
+#	rm -rf odrive_ros/src/odrive_ros
+
+#COPY ./odrive_ros/* $HOME/catkin_ws/src/odrive_ros/src/odrive_ros/ 
+
 RUN mkdir -p $HOME/catkin_ws/src && \
 	cd $HOME/catkin_ws/src && \
-    git clone https://github.com/neomanic/odrive_ros.git && \
-	rm -rf odrive_ros/src/odrive_ros
-
-COPY ./odrive_ros/* $HOME/catkin_ws/src/odrive_ros/src/odrive_ros/ 
-
-RUN mkdir -p $HOME/catkin_ws/src && \
-	cd $HOME/catkin_ws/src && \
+	git clone https://github.com/wn1980/odrive_ros.git && \
     #git clone https://github.com/neomanic/odrive_ros.git && \
 	#cd $HOME/catkin_ws/src/odrive_ros/src/odrive_ros && \
 	#echo "from .odrive_node import ODriveNode, start_odrive" > __init__.py && \
