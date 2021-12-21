@@ -22,6 +22,6 @@
         <param name="publish_odom"         value="$(arg publish_odom)"/>
         <param name="publish_odom_tf"      value="$(arg publish_odom_tf)"/>
 
-        <param name="use_preroll"      value="false"/>
+        <param name="use_preroll"      value="$(env USE_PREROLL)"/>
     </node>
 </launch>

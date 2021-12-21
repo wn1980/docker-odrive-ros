@@ -24,4 +24,5 @@ services:
       - ROS_MASTER_URI=http://master:11311
       - WHEEL_TRACK=0.375 #m
       - TYRE_CIRCUMFERENCE=0.490 #m
+      - USE_PREROLL=false
     #command: tail -f /dev/null
