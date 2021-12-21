@@ -65,25 +65,21 @@ RUN mkdir -p $HOME/catkin_ws/src && \
 	cd $HOME/catkin_ws/src && \
 	git clone https://github.com/wn1980/odrive_ros.git && \
     #git clone https://github.com/neomanic/odrive_ros.git && \
-	#cd $HOME/catkin_ws/src/odrive_ros/src/odrive_ros && \
-	#echo "from .odrive_node import ODriveNode, start_odrive" > __init__.py && \
     cd $HOME/catkin_ws && \
 	source /opt/ros/$ROS_DISTRO/setup.bash && \
-	#catkin_make install -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros/$ROS_DISTRO -DCATKIN_ENABLE_TESTING=0 && \
-	catkin_make && \
+	catkin_make install -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros/$ROS_DISTRO -DCATKIN_ENABLE_TESTING=0 && \
+	#catkin_make && \
 	#cd $HOME/catkin_ws/src/odrive_ros && \
 	#pip install -e . && \
 	#python setup.py install && \
-	#cp -r src/odrive_ros nodes && \
-	#rm -rf $HOME/catkin_ws && \
+	rm -rf $HOME/catkin_ws && \
 	echo "DONE"
 
-RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc && \
-    echo "source $HOME/catkin_ws/devel/setup.bash" >> ~/.bashrc
+#RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc && \
+#    echo "source $HOME/catkin_ws/devel/setup.bash" >> ~/.bashrc
 
 COPY ./odrive.launch /
 
-#CMD ["roslaunch", "--wait", "odrive.launch"]
+CMD ["roslaunch", "--wait", "odrive.launch"]
 
-#CMD ["rosrun", "odrive_ros", "odrive_node"]
-CMD source $HOME/catkin_ws/devel/setup.bash && roslaunch --wait odrive.launch
+#CMD source $HOME/catkin_ws/devel/setup.bash && roslaunch --wait odrive.launch
