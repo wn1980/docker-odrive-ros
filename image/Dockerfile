@@ -1,5 +1,5 @@
 FROM ros:noetic-ros-core-focal
-#FROM ros:melodic-ros-core-bionic
+#Now, works on Noetic only
 
 LABEL maintainer="Waipot Ngamsaad <waipotn@hotmail.com>"
 
