@@ -24,6 +24,8 @@
 
         <param name="use_preroll"      value="$(env USE_PREROLL)"/>
 
+        <!--
         <remap from="/odrive/odom"  to="$(env ODOM_TOPIC)"/>
+        -->
     </node>
 </launch>
