@@ -5,7 +5,7 @@
     <arg name="engage_on_startup"    default="true"/>
 
     <arg name="publish_odom"        default="true"/>
-    <arg name="publish_odom_tf"     default="true"/>
+    <arg name="publish_odom_tf"     default="$(env PUB_TF)"/>
     
     <arg name="output"   default="screen"/>
     <arg name="respawn"   default="false"/>
@@ -24,8 +24,8 @@
 
         <param name="use_preroll"      value="$(env USE_PREROLL)"/>
 
-        <!--
-        <remap from="/odrive/odom"  to="$(env ODOM_TOPIC)"/>
-        -->
+        
+        <remap from="odom"  to="$(env ODOM_TOPIC)"/>
+        
     </node>
 </launch>

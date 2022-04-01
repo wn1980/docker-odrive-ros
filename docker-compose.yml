@@ -9,7 +9,7 @@ networks:
 services:
 
   odrive:
-    build: ./image
+    #build: ./image
     image: wn1980/odrive-ros${TAG}
     container_name: ros_odrive
     init: true
@@ -25,5 +25,6 @@ services:
       - WHEEL_TRACK=0.375 #m
       - TYRE_CIRCUMFERENCE=0.518 #m
       - USE_PREROLL=false
-      #- ODOM_TOPIC=/raw_odom
+      - PUB_TF=false
+      - ODOM_TOPIC=/raw_odom
     #command: tail -f /dev/null
